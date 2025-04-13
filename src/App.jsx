@@ -204,7 +204,10 @@ function TechIconsSection() {
   ];
 
   return (
-    <div className="mt-6 w-full flex justify-center">
+    <div className="mt-6 w-full flex justify-center flex-col items-center gap-2">
+      <p className=" text-gray-400">
+        or start a blank app with your favorite stack
+      </p>
       <div className="grid grid-cols-5 gap-6 max-w-4xl">
         {icons.map(({ Icon, color, glow }, i) => (
           <Icon
