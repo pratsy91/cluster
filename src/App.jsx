@@ -151,7 +151,7 @@ export default function App() {
 
       {showMessage && (
         <div
-          className="fixed bottom-0 w-full py-3 bg-green-600 text-white text-center text-sm shadow-lg transform translate-y-full transition-all duration-500"
+          className="fixed bottom-0 w-full py-3 bg-green-600 text-white text-center text-sm shadow-lg transform translate-y-full transition-all duration-500 z-20"
           style={{
             transform: showMessage ? "translateY(0)" : "translateY(100%)",
           }}
