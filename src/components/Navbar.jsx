@@ -4,6 +4,21 @@ import { FaXTwitter, FaDiscord, FaBars } from "react-icons/fa6";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
+  const [isGetStartedModalOpen, setIsGetStartedModalOpen] = useState(false);
+  const [showStripeMessage, setShowStripeMessage] = useState(false);
+
+  const handleModalClose = () => {
+    setIsSignInModalOpen(false);
+    setIsGetStartedModalOpen(false);
+  };
+
+  const handleStripeBadgeClick = () => {
+    setShowStripeMessage(true);
+    setTimeout(() => {
+      setShowStripeMessage(false); // Hide the message after 3 seconds
+    }, 3000);
+  };
 
   return (
     <>
@@ -29,10 +44,16 @@ export function Navbar() {
           <a href="#contact">
             <FaDiscord className="w-4 h-4 cursor-pointer hover:text-blue-400 transition" />
           </a>
-          <button className="floating-button px-3 py-1 text-xs rounded bg-black text-white hover:bg-gray-800 transition">
+          <button
+            onClick={() => setIsSignInModalOpen(true)}
+            className="floating-button px-3 py-1 text-xs rounded bg-black text-white hover:bg-gray-800 transition"
+          >
             Sign In
           </button>
-          <button className="floating-button px-3 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700 transition">
+          <button
+            onClick={() => setIsGetStartedModalOpen(true)}
+            className="floating-button px-3 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+          >
             Get Started
           </button>
         </div>
@@ -79,25 +100,107 @@ export function Navbar() {
             <a href="#contact" className="text-white text-xl">
               <FaDiscord className="w-6 h-6" />
             </a>
-            <button className="floating-button px-3 py-1 text-xs rounded bg-black text-white hover:bg-gray-800 transition">
+            <button
+              onClick={() => setIsSignInModalOpen(true)}
+              className="floating-button px-3 py-1 text-xs rounded bg-black text-white hover:bg-gray-800 transition"
+            >
               Sign In
             </button>
-            <button className="floating-button px-3 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700 transition">
+            <button
+              onClick={() => setIsGetStartedModalOpen(true)}
+              className="floating-button px-3 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+            >
               Get Started
             </button>
           </div>
         </div>
       )}
 
-      {/* Mobile Stripe Notification (visible on all screen sizes) */}
       <div className="mt-20 w-full flex justify-center z-20">
-        <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm px-4 py-1.5 rounded-full shadow shadow-blue-500/20 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-indigo-400/30 hover:-translate-y-0.5 cursor-pointer">
+        <div
+          onClick={handleStripeBadgeClick}
+          className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm px-4 py-1.5 rounded-full shadow shadow-blue-500/20 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-indigo-400/30 hover:-translate-y-0.5 cursor-pointer"
+        >
           <SiStripe className="w-4 h-4 text-indigo-400 transition-colors duration-300 group-hover:text-indigo-300" />
           <span className="transition-colors duration-300">
             New! Stripe Payments support
           </span>
         </div>
       </div>
+
+      {/* Stripe Message */}
+      {showStripeMessage && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-3 rounded-md shadow-lg">
+          <p className="text-lg font-semibold">
+            Stripe Payment Integration is Live!
+          </p>
+        </div>
+      )}
+
+      {/* Modals for Sign In and Get Started */}
+      {isSignInModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-40">
+          <div className="bg-black/60 text-white p-8 rounded-lg w-full max-w-md backdrop-blur-md shadow-lg border border-white/20">
+            <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
+            <form className="space-y-4">
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full px-4 py-2 bg-transparent border border-gray-500 rounded-md text-white focus:outline-none focus:border-blue-400 transition-all"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                className="w-full px-4 py-2 bg-transparent border border-gray-500 rounded-md text-white focus:outline-none focus:border-blue-400 transition-all"
+              />
+              <button
+                type="submit"
+                className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              >
+                Sign In
+              </button>
+            </form>
+            <button
+              onClick={handleModalClose}
+              className="mt-6 text-blue-600 hover:underline text-center block"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isGetStartedModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-40">
+          <div className="bg-black/60 text-white p-8 rounded-lg w-full max-w-md backdrop-blur-md shadow-lg border border-white/20">
+            <h2 className="text-2xl font-bold mb-6 text-center">Get Started</h2>
+            <form className="space-y-4">
+              <input
+                type="text"
+                placeholder="Name"
+                className="w-full px-4 py-2 bg-transparent border border-gray-500 rounded-md text-white focus:outline-none focus:border-blue-400 transition-all"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full px-4 py-2 bg-transparent border border-gray-500 rounded-md text-white focus:outline-none focus:border-blue-400 transition-all"
+              />
+              <button
+                type="submit"
+                className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              >
+                Get Started
+              </button>
+            </form>
+            <button
+              onClick={handleModalClose}
+              className="mt-6 text-blue-600 hover:underline text-center block"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

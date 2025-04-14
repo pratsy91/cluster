@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Navbar } from "./components/Navbar";
 import { GlowOverlays } from "./components/GlowOverlays";
 import { Stars } from "./components/Stars";
@@ -9,6 +9,44 @@ import { PricingCards } from "./components/PricingCards";
 
 export default function App() {
   const [input, setInput] = useState("");
+  const [ideaGenerated, setIdeaGenerated] = useState(false);
+  const [actionMessage, setActionMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
+
+  const handleGenerateIdeaClick = () => {
+    setIdeaGenerated(true);
+
+    setInput("");
+
+    setTimeout(() => {
+      setIdeaGenerated(false);
+    }, 3000);
+  };
+
+  const handleButtonClick = (action) => {
+    const messages = {
+      "Import from Figma":
+        "🚀 Importing Figma designs... Let’s bring your design to life!",
+      "Build a mobile app with Expo":
+        "📱 Building a mobile app with Expo... It's going to be a great journey!",
+      "Start a blog with Astro":
+        "📝 Starting your blog with Astro... Let’s make your content shine!",
+      "Create a docs site with Vitepress":
+        "📚 Creating a docs site with Vitepress... Your documentation awaits!",
+      "Scaffold UI with shadcn":
+        "🎨 Scaffolding UI with shadcn... Let's design something beautiful!",
+      "Draft a presentation with Slidev":
+        "🎤 Drafting your presentation with Slidev... Let’s impress your audience!",
+    };
+
+    setActionMessage(messages[action]);
+    setShowMessage(true);
+
+    // Hide the message after 2 seconds
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 2000);
+  };
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden text-white relative">
@@ -50,7 +88,10 @@ export default function App() {
               onChange={(e) => setInput(e.target.value)}
             />
             {input.trim() !== "" && (
-              <button className="absolute bottom-3 right-3 bg-blue-600 hover:bg-blue-700 transition-colors text-xs px-3 py-1 rounded-md">
+              <button
+                onClick={handleGenerateIdeaClick}
+                className="absolute bottom-3 right-3 bg-blue-600 hover:bg-blue-700 transition-colors text-xs px-3 py-1 rounded-md"
+              >
                 Generate Idea
               </button>
             )}
@@ -67,7 +108,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Buttons */}
           <div className="flex flex-wrap mt-2 gap-2 justify-center mb-4 max-w-[500px] mx-auto">
             {[
               "Import from Figma",
@@ -79,6 +119,7 @@ export default function App() {
             ].map((text, i) => (
               <button
                 key={i}
+                onClick={() => handleButtonClick(text)}
                 className="bg-white/10 backdrop-blur-md px-3 py-1 rounded-md border border-white/20 hover:bg-white/20 transition text-xs"
               >
                 {text}
@@ -93,6 +134,31 @@ export default function App() {
           <PricingCards />
         </div>
       </main>
+
+      {ideaGenerated && (
+        <div
+          className="fixed bottom-0 w-full py-3 bg-blue-600 text-white text-center text-sm shadow-lg transform translate-y-full transition-all duration-500 z-20"
+          style={{
+            transform: ideaGenerated ? "translateY(0)" : "translateY(100%)",
+          }}
+        >
+          <p>
+            🎉 Your idea has been generated! <br />
+            Start building with our templates or AI support.
+          </p>
+        </div>
+      )}
+
+      {showMessage && (
+        <div
+          className="fixed bottom-0 w-full py-3 bg-green-600 text-white text-center text-sm shadow-lg transform translate-y-full transition-all duration-500"
+          style={{
+            transform: showMessage ? "translateY(0)" : "translateY(100%)",
+          }}
+        >
+          <p>{actionMessage}</p>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="z-10 text-xs text-gray-400 space-x-4 py-4 px-6 lg:text-end text-center">
