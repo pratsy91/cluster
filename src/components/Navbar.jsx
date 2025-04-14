@@ -130,7 +130,7 @@ export function Navbar() {
 
       {/* Stripe Message */}
       {showStripeMessage && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-3 rounded-md shadow-lg">
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-3 rounded-md shadow-lg z-20">
           <p className="text-lg font-semibold">
             Stripe Payment Integration is Live!
           </p>
