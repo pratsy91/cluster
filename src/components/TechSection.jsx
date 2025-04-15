@@ -103,7 +103,8 @@ export function TechIconsSection() {
       <p className="text-gray-400">
         or start a blank app with your favorite stack
       </p>
-      <div className="grid grid-cols-5 gap-6 max-w-4xl">
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 max-w-4xl px-4">
         {icons.map(({ Icon, color, glow, message, messageColor }, i) => (
           <div key={i} className="relative group">
             <Icon
@@ -116,10 +117,10 @@ export function TechIconsSection() {
         ))}
       </div>
 
-      {/* Dynamic tech message with different color */}
+      {/* Dynamic tech message bar */}
       {techMessage && (
         <div
-          className={`fixed bottom-0 w-full py-3 text-center text-sm shadow-lg z-20 ${messageColor}`}
+          className={`fixed bottom-0 left-0 right-0 py-3 text-center text-sm shadow-lg z-50 transition-all duration-300 ${messageColor}`}
         >
           <p>{techMessage}</p>
         </div>

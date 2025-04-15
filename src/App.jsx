@@ -15,12 +15,8 @@ export default function App() {
 
   const handleGenerateIdeaClick = () => {
     setIdeaGenerated(true);
-
     setInput("");
-
-    setTimeout(() => {
-      setIdeaGenerated(false);
-    }, 3000);
+    setTimeout(() => setIdeaGenerated(false), 3000);
   };
 
   const handleButtonClick = (action) => {
@@ -38,77 +34,59 @@ export default function App() {
       "Draft a presentation with Slidev":
         "🎤 Drafting your presentation with Slidev... Let’s impress your audience!",
     };
-
     setActionMessage(messages[action]);
     setShowMessage(true);
-
-    // Hide the message after 2 seconds
-    setTimeout(() => {
-      setShowMessage(false);
-    }, 2000);
+    setTimeout(() => setShowMessage(false), 2000);
   };
 
   return (
-    <div className="flex flex-col min-h-screen overflow-hidden text-white relative">
-      {/* Background effects */}
-      <div className="fixed inset-0 w-full h-full -z-10 overflow-hidden">
+    <div className="flex flex-col min-h-screen text-white relative">
+      <div className="fixed inset-0 -z-10">
         <Background3D />
         <GradientOverlay />
         <Stars />
         <GlowOverlays />
       </div>
 
-      {/* Navbar */}
       <Navbar />
 
-      {/* Main content */}
-      <main className="flex-grow pt-20 px-4 flex flex-col items-center justify-start">
-        <div className="text-center z-10 max-w-[700px] transition-transform duration-500">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent relative transition-transform duration-300 hover:drop-shadow-[0_2px_10px_rgba(255,255,255,0.5)]">
-            What do you want to build?
+      <main className="flex-grow px-6 lg:px-20 py-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        {/* Left Column */}
+        <section className="space-y-6">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+            Build stunning web & mobile experiences
           </h1>
-          <p className="text-base sm:text-lg text-gray-400 mb-4 relative group transition-all duration-300">
-            Prompt, run, edit, and deploy full-stack{" "}
-            <span className="text-white font-medium group-hover:text-pink-400 transition-colors duration-300">
-              web
-            </span>{" "}
-            and{" "}
-            <span className="text-white font-medium group-hover:text-yellow-300 transition-colors duration-300">
-              mobile
-            </span>{" "}
-            apps.
+          <p className="text-gray-300 text-lg">
+            Prompt. Generate. Launch. Bring your creative ideas to life with our
+            intelligent builder. No boundaries.
           </p>
-
-          {/* Textarea Input with Button */}
-          <div className="relative bg-white/10 mx-auto backdrop-blur-md border border-white/20 rounded-xl p-3 w-full max-w-md mb-2 shadow-lg shadow-blue-500/20 focus-within:border-blue-400 focus-within:shadow-blue-400/30 transition-all duration-300">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-lg max-w-xl">
             <textarea
-              placeholder="How can Bolt help you today?"
-              className="w-full h-20 bg-transparent text-white placeholder-gray-400 focus:outline-none resize-none text-sm border-none pr-24"
+              placeholder="Describe what you want to build..."
+              className="w-full h-32 bg-transparent text-white placeholder-gray-400 focus:outline-none resize-none text-base"
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
-            {input.trim() !== "" && (
+            <div className="mt-2 h-10">
               <button
                 onClick={handleGenerateIdeaClick}
-                className="absolute bottom-3 right-3 bg-blue-600 hover:bg-blue-700 transition-colors text-xs px-3 py-1 rounded-md"
+                className={`bg-pink-600 hover:bg-pink-700 text-sm px-4 py-2 rounded-md transition-opacity duration-300 ${
+                  input.trim() ? "opacity-100 visible" : "opacity-0 invisible"
+                }`}
               >
                 Generate Idea
               </button>
-            )}
-          </div>
-
-          {/* Dynamic Suggestion */}
-          <div className="h-5 mb-4">
-            <div
-              className={`text-sm text-green-300 transition-opacity duration-300 ${
-                input.trim() !== "" ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              ⚡ Try building your idea with our templates or AI support.
             </div>
           </div>
+          <p
+            className={`text-green-300 text-sm mt-2 transition-opacity duration-300 ${
+              input.trim() ? "opacity-100 visible" : "opacity-0 invisible"
+            }`}
+          >
+            ⚡ Need inspiration? Try one of our starter templates below.
+          </p>
 
-          <div className="flex flex-wrap mt-2 gap-2 justify-center mb-4 max-w-[500px] mx-auto">
+          <div className="flex flex-wrap gap-2 mt-2">
             {[
               "Import from Figma",
               "Build a mobile app with Expo",
@@ -116,65 +94,51 @@ export default function App() {
               "Create a docs site with Vitepress",
               "Scaffold UI with shadcn",
               "Draft a presentation with Slidev",
-            ].map((text, i) => (
+            ].map((text) => (
               <button
-                key={i}
+                key={text}
                 onClick={() => handleButtonClick(text)}
-                className="bg-white/10 backdrop-blur-md px-3 py-1 rounded-md border border-white/20 hover:bg-white/20 transition text-xs"
+                className="text-sm bg-white/10 border border-white/20 px-3 py-1 rounded hover:bg-white/20 transition"
               >
                 {text}
               </button>
             ))}
           </div>
+        </section>
 
-          {/* Tech icons */}
+        {/* Right Column */}
+        <section className="space-y-12">
           <TechIconsSection />
-
-          {/* Pricing cards */}
           <PricingCards />
-        </div>
+        </section>
       </main>
 
       {ideaGenerated && (
-        <div
-          className="fixed bottom-0 w-full py-3 bg-blue-600 text-white text-center text-sm shadow-lg transform translate-y-full transition-all duration-500 z-20"
-          style={{
-            transform: ideaGenerated ? "translateY(0)" : "translateY(100%)",
-          }}
-        >
-          <p>
-            🎉 Your idea has been generated! <br />
-            Start building with our templates or AI support.
-          </p>
+        <div className="fixed bottom-0 w-full py-3 bg-blue-600 text-white text-center text-sm shadow-lg z-20">
+          🎉 Your idea has been generated! Start building now.
         </div>
       )}
 
       {showMessage && (
-        <div
-          className="fixed bottom-0 w-full py-3 bg-green-600 text-white text-center text-sm shadow-lg transform translate-y-full transition-all duration-500 z-20"
-          style={{
-            transform: showMessage ? "translateY(0)" : "translateY(100%)",
-          }}
-        >
-          <p>{actionMessage}</p>
+        <div className="fixed bottom-0 w-full py-3 bg-green-600 text-white text-center text-sm shadow-lg z-20">
+          {actionMessage}
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="z-10 text-xs text-gray-400 space-x-4 py-4 px-6 lg:text-end text-center">
-        <a href="#" className="hover:text-white transition">
+      <footer className="py-6 text-xs text-center text-gray-400 space-x-4">
+        <a href="#" className="hover:text-white">
           We're hiring
         </a>
-        <a href="#" className="hover:text-white transition">
+        <a href="#" className="hover:text-white">
           Help Center
         </a>
-        <a href="#" className="hover:text-white transition">
+        <a href="#" className="hover:text-white">
           Pricing
         </a>
-        <a href="#" className="hover:text-white transition">
+        <a href="#" className="hover:text-white">
           Terms
         </a>
-        <a href="#" className="hover:text-white transition">
+        <a href="#" className="hover:text-white">
           Privacy
         </a>
       </footer>
